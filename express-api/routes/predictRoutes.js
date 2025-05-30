@@ -5,8 +5,6 @@ const { predictController } = require("../controllers/predictController"); // <-
 
 const router = express.Router();
 
-// router.use(fileUpload());
-
 router.post("/predict", upload.single("image"), predictController);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const getAllCategories = async () => {
     const result = await pool.query("SELECT * FROM categories");
     return result.rows;
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    // console.error("Error fetching categories:", error);
     throw error;
   }
 };

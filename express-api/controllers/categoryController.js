@@ -6,7 +6,6 @@ const getAllCategories = async (req, res) => {
     const categories = await categoryModel.getAllCategories();
     return res.status(200).json(categories);
   } catch (error) {
-    console.error("Error fetching categories:", error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -31,7 +30,6 @@ const getCategoryById = async (req, res) => {
       data: category,
     });
   } catch (error) {
-    console.error("Error fetching category by id:", error);
     return res.status(500).json({
       success: false,
       message: "Terjadi kesalahan pada server",
@@ -54,7 +52,6 @@ const addCategory = async (req, res) => {
 
     return res.status(201).json({ success: true, data: newCategory });
   } catch (error) {
-    console.error("❌ Error adding category:", error);
     return res.status(500).json({ success: false, message: "Terjadi kesalahan di server" });
   }
 };
@@ -72,7 +69,6 @@ const updateCategory = async (req, res) => {
 
     return res.status(200).json({ success: true, data: updated });
   } catch (error) {
-    console.error("Error updating category:", error);
     return res.status(500).json({ success: false, message: "Terjadi kesalahan pada server" });
   }
 };
@@ -88,7 +84,6 @@ const deleteCategory = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Kategori berhasil dihapus" });
   } catch (error) {
-    console.error("Error deleting category:", error);
     return res.status(500).json({ success: false, message: "Terjadi kesalahan pada server" });
   }
 };

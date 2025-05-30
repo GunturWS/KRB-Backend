@@ -1,15 +1,19 @@
 const PlantModel = require("../models/plantModel");
 
+const baseUrl = process.env.PUBLIC_BASE_URL;
+
 const getPlants = async (req, res) => {
   try {
+    // const baseUrl = process.env.PUBLIC_BASE_URL;
     const plants = await PlantModel.getAllPlants();
     const result = plants.map((plant) => ({
       ...plant,
-      image_path: `http://localhost:3000/${plant.image_path}`,
+      // image_path: `http://localhost:3000/${plant.image_path}`,
+      image_path: `${baseUrl}/${plant.image_path}`,
     }));
     res.status(200).json(result);
   } catch (error) {
-    console.error("❌ Error fetching plants:", error);
+    // console.error("❌ Error fetching plants:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -18,6 +22,7 @@ const getPlantById = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // const baseUrl = process.env.PUBLIC_BASE_URL;
     const plant = await PlantModel.getPlantById(id);
 
     if (!plant) {
@@ -26,12 +31,13 @@ const getPlantById = async (req, res) => {
 
     const result = {
       ...plant,
-      image_path: `http://localhost:3000/${plant.image_path}`,
+      // image_path: `http://localhost:3000/${plant.image_path}`,
+      image_path: `${baseUrl}/${plant.image_path}`,
     };
 
     res.status(200).json(result);
   } catch (error) {
-    console.error("❌ Error fetching plant by ID:", error);
+    // console.error("❌ Error fetching plant by ID:", error);
     res.status(500).json({ error: "Terjadi kesalahan server" });
   }
 };
@@ -54,7 +60,7 @@ const addPlant = async (req, res) => {
     });
     res.status(201).json({ message: "Plant berhasil ditambahkan", plantId: result.plantId });
   } catch (error) {
-    console.error("❌ Error adding plant:", error);
+    // console.error("❌ Error adding plant:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -67,7 +73,7 @@ const updatePlant = async (req, res) => {
     await PlantModel.updatePlant(id, { nama_indonesia, deskripsi, category_ids });
     res.status(200).json({ message: "Tanaman berhasil diperbarui" });
   } catch (err) {
-    console.error("❌ Error updating plant:", err);
+    // console.error("❌ Error updating plant:", err);
     res.status(500).json({ error: "Gagal memperbarui tanaman" });
   }
 };

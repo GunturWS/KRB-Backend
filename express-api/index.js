@@ -23,9 +23,13 @@ app.use("/dataset", express.static(datasetPath));
 // CORS: Izinkan akses dari frontend (misalnya: React di http://localhost:5173)
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type, Authorization",
+    origin: process.env.CORS_ORIGIN || "*", // fallback kalau env kosong
+    methods: process.env.CORS_METHODS
+      ? process.env.CORS_METHODS.split(",")
+      : ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: process.env.CORS_ALLOWED_HEADERS
+      ? process.env.CORS_ALLOWED_HEADERS.split(",")
+      : ["Content-Type", "Authorization"],
   })
 );
 
