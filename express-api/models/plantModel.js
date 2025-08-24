@@ -28,32 +28,32 @@ const getAllPlants = async () => {
 };
 
 // Get Plant By ID
-const getPlantById = async (id) => {
-  const query = `
-    SELECT 
-      dp.id AS dataset_id,
-      dp.nama_tumbuhan,
-      dp.image_path,
-      p.id AS plant_id,
-      p.nama_indonesia,
-      p.deskripsi,
-      COALESCE(k.kategori, '[]') AS kategori
-    FROM datasetplants dp
-    LEFT JOIN plants p ON p.dataset_id = dp.id
-    LEFT JOIN (
+  const getPlantById = async (id) => {
+    const query = `
       SELECT 
-        pc.plant_id,
-        json_agg(DISTINCT c.nama_kategori) AS kategori
-      FROM plantcategory pc
-      JOIN categories c ON pc.category_id = c.id
-      GROUP BY pc.plant_id
-    ) k ON p.id = k.plant_id
-    WHERE dp.id = $1
-    LIMIT 1;
-  `;
-  const result = await pool.query(query, [id]);
-  return result.rows[0];
-};
+        dp.id AS dataset_id,
+        dp.nama_tumbuhan,
+        dp.image_path,
+        p.id AS plant_id,
+        p.nama_indonesia,
+        p.deskripsi,
+        COALESCE(k.kategori, '[]') AS kategori
+      FROM datasetplants dp
+      LEFT JOIN plants p ON p.dataset_id = dp.id
+      LEFT JOIN (
+        SELECT 
+          pc.plant_id,
+          json_agg(DISTINCT c.nama_kategori) AS kategori
+        FROM plantcategory pc
+        JOIN categories c ON pc.category_id = c.id
+        GROUP BY pc.plant_id
+      ) k ON p.id = k.plant_id
+      WHERE dp.id = $1
+      LIMIT 1;
+    `;
+    const result = await pool.query(query, [id]);
+    return result.rows[0];
+  };
 
 const updatePlant = async (id, { nama_indonesia, deskripsi, category_ids }) => {
   const client = await pool.connect();

@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 import plantRoutes from "./routes/plantRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import predictRoutes from "./routes/predictRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import adminPlantRoutes from "./routes/adminPlantRoutes.js";
 
 dotenv.config();
 
@@ -19,6 +21,7 @@ const __dirname = path.dirname(__filename);
 // Static file: akses gambar dari folder 'dataset' yang sejajar dengan express_api
 const datasetPath = path.join(__dirname, "..", "dataset");
 app.use("/dataset", express.static(datasetPath));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // CORS: Izinkan akses dari frontend (misalnya: React di http://localhost:5173)
 app.use(
@@ -40,6 +43,8 @@ app.use(express.json());
 app.use("/api", plantRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", predictRoutes);
+app.use("/api", adminRoutes);
+app.use("/api", adminPlantRoutes);
 
 // Jalankan server
 const PORT = process.env.PORT || 3000;
